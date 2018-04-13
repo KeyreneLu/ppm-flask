@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}
+	NowTime
+{% endblock %}
+
+{% block page_content %}
+	<p>the local date and time is {{moment(current_time).format('YYYY-MM-DD HH:mm:ss')}}</p>
+	<p>That was {{moment(current_time).fromNow(refresh=True)}}</p>
+{% endblock %}
