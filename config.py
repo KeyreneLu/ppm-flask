@@ -4,7 +4,8 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-	SECRET = "PPM19940321"
+	SECRET_KEY = "PPM19940321"
+	CSRF_ENABLED = True
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	FLASKY_MAIL_SUBJECT_PREFIX = "BlogProj"
@@ -12,10 +13,10 @@ class Config:
 	FLASKY_ADMIN = "KeyreneLu"
 
 	@staticmethod
-	def init__app(app):
+	def init_app(app):
 		pass
 
-class DevelopmentConfig(config):
+class DevelopmentConfig(Config):
 	"""开发环境配置"""
 	debug = True
 	MAIL_SERVER = "smtp.googlemail.com"
@@ -26,12 +27,12 @@ class DevelopmentConfig(config):
 	SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URL") or \
 	"sqlite:///"+os.path.join(basedir,"data.dev.sqlite")
 
-class TestingConfig(config):
+class TestingConfig(Config):
 	TESTING = True
 	SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URL") or \
 	"sqlite:///" + os.path.join(basedir,"data.test.sqlite")
 
-class ProductionConfig(config):
+class ProductionConfig(Config):
 	SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
 	"sqlite:///" + os.path.join(basedir,"data.sqlite")
 

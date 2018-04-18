@@ -3,5 +3,10 @@
 {% block title %}Index{% endblock %}
 
 {% block page_content %} 
-<h1>You Bower Is {{user_agent}}!</h1>
+	Hello,
+	{% if current_user.is_authenticated %}
+		{{ current_user.username }}
+	{% else %}
+		stranger
+	{% endif %}
 {% endblock %}

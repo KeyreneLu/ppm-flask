@@ -25,6 +25,15 @@
 				<li><a href="/now/time">Setting</a></li>
 				<li><a href="/user/register">User</a></li>
 			</ul>
+
+			<!-- 用户是否登录-->
+			<ul class="nav navbar-nav navbar-right">
+				{% if current_user.is_authenticated %}
+					<li><a href="{{ url_for("auth.logout") }}">Sign Out</a></li>
+				{% else %}
+					<li><a href="{{ url_for("auth.login") }}">Sign In</a></li>
+				{% endif %}
+			</ul>
 		</div>
 	</div>
 </div>

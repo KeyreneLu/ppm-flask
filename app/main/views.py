@@ -1,13 +1,13 @@
 #coding:utf-8
 from datetime import datetime
-from flask import render_template,session,redirect,
+from flask import render_template,session,redirect
 
 from . import main
-from .froms import NameForm
+from .forms import NameForm
 from .. import db
 from ..models import Role,User
 
-@app.route("/",methods=["GET","POST"])
+@main.route("/",methods=["GET","POST"])
 def index():
 	form = NameForm()
 	if form.validate_on_submit():
