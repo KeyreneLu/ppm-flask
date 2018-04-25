@@ -23,7 +23,7 @@ class User(UserMixin,db.Model):
 	email = db.Column(db.String(64),unique=True,index=True)
 	username = db.Column(db.String(64),index=True)
 	password_hash = db.Column(db.String(128))
-	comfirmed = db.Column(db.Boolean,default=False)
+	confirmed = db.Column(db.Boolean,default=False)
 	role_id = db.Column(db.Integer,db.ForeignKey("roles.id"))
 
 	def __repr__(self):
@@ -43,10 +43,23 @@ class User(UserMixin,db.Model):
 		"""验证密码正确性"""
 		return check_password_hash(self.password_hash,password)
 
-	def generate_comfirmation_token(self,expiration=3600):
+	def generate_confirmation_token(self,expiration=3600):
 		"""用户邮箱验证"""
 		s = Serializer(current_app.config["SECRET_KEY"],expiration)
-		return s.dumps({"comfirm":self.id})
+		return s.dumps({"confirm":self.id})
+
+	def confirm(self,token):
+		
+		s = Serializer(current_app.config["SECRET_KEY"])
+		try:
+			data = s.loads(token)
+		except :
+			return False
+		if data.get("confirm") != self.id:
+			return False
+		self.confirmed = True
+		db.session.add(self)
+		return True
 
 @login_manager.user_loader
 def load_user(user_id):
